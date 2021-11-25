@@ -3,8 +3,16 @@
  */
 import { get, post } from './http'
 
+// export const apiAddress = p => post('api/v1/users/my_address/address_edit_before', p);
+
+// 获取导航菜单
 export const getMenus = p => get('/menus', p);
-export const apiAddress = p => post('api/v1/users/my_address/address_edit_before', p);
+
+// 获取作者信息
+export const getAuthorInfo = p => get('/author/info', p);
+
+// 获取文章
+export const getArticle = p => get('/article', p);
 
 /*
     组件中使用

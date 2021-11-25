@@ -11,7 +11,9 @@
     <main class="main">
       <div class="container">
         <router-view class="router_view" />
-        <div class="side_bar">side_bar</div>
+        <div class="side_bar">
+          <side-bar />
+        </div>
       </div>
     </main>
     <footer class="home_footer">
@@ -26,10 +28,11 @@
 import { mapMutations } from "vuex";
 import Headers from "@components/Headers";
 import Footers from "@components/Footers";
+import SideBar from "@components/side-bar/SideBar";
 
 export default {
   name: "Layout",
-  components: { Headers, Footers },
+  components: { Headers, Footers, SideBar },
   data() {
     return {
       isFixed: false,
@@ -107,7 +110,7 @@ export default {
       flex: 1;
     }
     .side_bar {
-      width: 200px;
+      width: 280px;
       margin-left: 20px;
     }
   }
@@ -117,9 +120,16 @@ export default {
   }
 
   // 媒体查询，宽度小于700时的样式
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: 1000px) {
     .container {
-      width: 95%;
+      width: 90%;
+    }
+  }
+
+  // 媒体查询，宽度小于700时的样式
+  @media screen and (max-width: 750px) {
+    .container {
+      width: 98%;
     }
 
     .main .container .side_bar {
