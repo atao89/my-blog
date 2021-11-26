@@ -119,15 +119,22 @@ export default {
     background: #4183c4;
   }
 
-  // 媒体查询，宽度小于700时的样式
-  @media screen and (max-width: 1000px) {
+  // 媒体查询，宽度小于1250时的样式
+  @media screen and (max-width: 1250px) {
     .container {
       width: 90%;
     }
   }
 
-  // 媒体查询，宽度小于700时的样式
-  @media screen and (max-width: 750px) {
+  // 媒体查询，宽度小于1000时的样式
+  @media screen and (max-width: 1000px) {
+    .container {
+      width: 95%;
+    }
+  }
+
+  // 媒体查询，宽度小于800时的样式
+  @media screen and (max-width: 800px) {
     .container {
       width: 98%;
     }
