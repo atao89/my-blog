@@ -22,7 +22,7 @@ export default {
       type: Object,
       default: () => {
         return {
-          padding: "20px 0",
+          padding: "10px 0",
           fontSize: "16px",
           color: "rgba(255, 255, 255, 1)",
         };
@@ -96,7 +96,7 @@ export default {
     }
     &.actived {
       font-weight: bold;
-      border-bottom: 2px solid #d26911;
+      border-bottom: 2px solid #fff;
     }
   }
 }

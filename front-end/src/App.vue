@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Snowf
+    <!-- <Snowf
       :amount="50"
       :size="5"
       :speed="1.5"
@@ -11,17 +11,17 @@
       :zIndex="null"
       :resize="true"
       color="#fff"
-    />
+    /> -->
     <router-view />
   </div>
 </template>
 
 <script>
-import Snowf from "vue-snowf";
+// import Snowf from "vue-snowf";
 
 export default {
   name: "App",
-  components: { Snowf },
+  // components: { Snowf },
   data() {
     return {};
   },

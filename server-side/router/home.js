@@ -39,5 +39,15 @@ module.exports = {
                 })
             })
         })
+
+        // 获取banner图
+        app.get('/banner', (req, res) => {
+            DatabaseOperation.selectall('banner', {}, function (result) {
+                // console.log("selectall查询结果：", result);
+                res.send({
+                    data: result
+                })
+            })
+        })
     }
 }

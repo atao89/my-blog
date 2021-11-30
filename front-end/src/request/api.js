@@ -14,6 +14,9 @@ export const getAuthorInfo = p => get('/author/info', p);
 // 获取文章
 export const getArticle = p => get('/article', p);
 
+// 获取banner图
+export const getBanner = p => get('/banner', p);
+
 /*
     组件中使用
     import { apiAddress } from '@/request/api'

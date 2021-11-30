@@ -10,7 +10,7 @@ const routes = [
     name: "Layout",
     component: () =>
       import(/* webpackChunkName: "layout" */ "../Layout.vue"),
-    // component: resolve => require(['../Home.vue'], resolve)
+    // component: resolve => require(['../Layout.vue'], resolve)
     children: [
       {
         path: "/home",
@@ -46,8 +46,15 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "about" */ "../views/About.vue"),
         // component: resolve => require(['@v/About.vue'], resolve)
-      },
+      }
     ]
+  },
+  {
+    path: "/detail/:id",
+    name: "Detail",
+    component: () =>
+      import(/* webpackChunkName: "detail" */ "../views/Detail.vue"),
+    // component: resolve => require(['@v/Detail.vue'], resolve)
   },
 ];
 

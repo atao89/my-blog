@@ -24,7 +24,7 @@ module.exports = {
             template: 'public/index.html', // 模板来源
             filename: 'index.html', // 在 dist/index.html 的输出
             // 使用 title 选项时template中的title标签需要是<title><%= htmlWebpackPlugin.options.title %></title>
-            title: '阿涛的博客',
+            title: '阿涛的个人站点',
             cdn: {
                 js: [
                     'https://cdn.bootcss.com/vue/2.6.11/vue.min.js',

@@ -1,7 +1,7 @@
 <template>
   <div class="notice">
     <div class="type">
-      <h2>Notice</h2>
+      <h2>公告</h2>
     </div>
     <div class="content">
       <img class="avator-photo" :src="avator" />

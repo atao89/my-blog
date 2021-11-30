@@ -5,8 +5,10 @@
         <headers />
       </div>
     </header>
-    <div class="banner">
-      <div class="container">Banner</div>
+    <div class="home_banner">
+      <div class="container">
+        <banner />
+      </div>
     </div>
     <main class="main">
       <div class="container">
@@ -28,11 +30,12 @@
 import { mapMutations } from "vuex";
 import Headers from "@components/Headers";
 import Footers from "@components/Footers";
+import Banner from "@components/Banner";
 import SideBar from "@components/side-bar/SideBar";
 
 export default {
   name: "Layout",
-  components: { Headers, Footers, SideBar },
+  components: { Headers, Footers, Banner, SideBar },
   data() {
     return {
       isFixed: false,
@@ -75,32 +78,35 @@ export default {
 #layout {
   position: relative;
   z-index: 1;
-  .home_header {
-    width: 100%;
-    background: #4183c4;
-  }
-  .banner {
-    height: 150px;
-    background: #4183c4;
-    margin-bottom: 20px;
-  }
+
   .container {
     width: 80%;
     margin: auto;
   }
 
-  .is_fixed {
-    position: fixed;
-    z-index: 2;
-    animation: reback 0.4s ease-in forwards;
+  .home_header {
+    width: 100%;
+    background: #4183c4;
   }
-  @keyframes reback {
-    50% {
-      background: #000;
-    }
-    100% {
-      background: #4183c4;
-    }
+
+  .is_fixed {
+    // position: fixed;
+    // z-index: 2;
+    // animation: reback 0.4s ease-in forwards;
+  }
+  // @keyframes reback {
+  //   50% {
+  //     background: #000;
+  //   }
+  //   100% {
+  //     background: #4183c4;
+  //   }
+  // }
+
+  .home_banner {
+    height: 200px;
+    background: #4183c4;
+    margin-bottom: 20px;
   }
 
   .main .container {

@@ -43,9 +43,9 @@ export default {
         }
       });
     },
-    // 去详情
+    // 去详情页
     toDetail(id) {
-      alert(id);
+      this.$router.push({ path: `/detail/${id}` });
     },
   },
 };
@@ -82,7 +82,7 @@ export default {
       }
     }
     .content_main {
-      height: 200px;
+      height: 150px;
       overflow: hidden;
       display: flex;
       img {
