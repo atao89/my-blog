@@ -5,7 +5,7 @@
         <headers />
       </div>
     </header>
-    <div class="home_banner">
+    <div class="home_banner" v-if="$route.path === '/home'">
       <div class="container">
         <banner />
       </div>
@@ -14,7 +14,7 @@
       <div class="container">
         <router-view class="router_view" />
         <div class="side_bar">
-          <side-bar />
+          <component :is="CurrentComponent"></component>
         </div>
       </div>
     </main>
@@ -32,10 +32,11 @@ import Headers from "@components/Headers";
 import Footers from "@components/Footers";
 import Banner from "@components/Banner";
 import SideBar from "@components/side-bar/SideBar";
+import Directory from "@components/Directory";
 
 export default {
   name: "Layout",
-  components: { Headers, Footers, Banner, SideBar },
+  components: { Headers, Footers, Banner, SideBar, Directory },
   data() {
     return {
       isFixed: false,
@@ -44,6 +45,11 @@ export default {
   created() {
     // this.getNavList();
     this.$store.dispatch("home/getNavList");
+  },
+  computed: {
+    CurrentComponent() {
+      return this.$route.path.includes("/detail") ? "Directory" : "SideBar";
+    },
   },
   methods: {
     ...mapMutations("home", ["getNavList"]),
@@ -106,9 +112,11 @@ export default {
   .home_banner {
     height: 200px;
     background: #4183c4;
-    margin-bottom: 20px;
   }
 
+  .main {
+    margin-top: 20px;
+  }
   .main .container {
     display: flex;
     justify-content: space-between;

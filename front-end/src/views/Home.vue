@@ -1,34 +1,22 @@
 <template>
-  <ul class="home">
-    <li class="content" v-for="item in rticleList" :key="index">
-      <div class="content_head">
-        <span class="classify">{{ item.classify }}</span>
-        <span class="title" @click="toDetail(item.id)">{{ item.title }}</span>
-      </div>
-      <div class="content_main">
-        <img :src="item.img_url" />
-        <div
-          class="text"
-          v-html="item.content.slice(0, item.content.indexOf('</') + 4)"
-        ></div>
-      </div>
-      <div class="content_info">
-        <span class="info"><i>作者：</i>{{ item.author }}</span>
-        <span class="info"><i>发表于：</i>{{ item.public }}</span>
-        <span class="info"><i>阅读量：</i>{{ item.reading }}</span>
-      </div>
-    </li>
-  </ul>
+  <div class="home">
+    <list :articleList="articleList" />
+    <paging :total="total" @changePage="changePage" />
+  </div>
 </template>
 
 <script>
+import List from "@components/List";
+import Paging from "@components/Paging";
 import { getArticle } from "@/request/api";
 
 export default {
   name: "Home",
+  components: { List, Paging },
   data() {
     return {
-      rticleList: [],
+      articleList: [],
+      total: 0,
     };
   },
   created() {
@@ -36,16 +24,23 @@ export default {
   },
   methods: {
     // 获取文章数据
-    getArticle() {
-      getArticle({ page: 1, limit: 5 }).then((res) => {
+    getArticle(params = { page: 1, limit: 5 }) {
+      this.articleList = [];
+      this.total = 0;
+      getArticle(params).then((res) => {
         if (res.code == "1") {
-          this.rticleList = res.data;
+          this.articleList = res.data;
+          this.total = res.total;
         }
       });
     },
     // 去详情页
     toDetail(id) {
       this.$router.push({ path: `/detail/${id}` });
+    },
+    // 改变页码重新请求数据
+    changePage(options) {
+      this.getArticle(options);
     },
   },
 };

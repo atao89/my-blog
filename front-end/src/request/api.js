@@ -17,6 +17,12 @@ export const getArticle = p => get('/article', p);
 // 获取banner图
 export const getBanner = p => get('/banner', p);
 
+// 获取文章详情
+export const getDetail = p => get('/detail', p);
+
+// 获取tag分类
+export const getTags = p => get('/tag', p);
+
 /*
     组件中使用
     import { apiAddress } from '@/request/api'

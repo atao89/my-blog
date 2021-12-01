@@ -1,49 +1,45 @@
 <template>
-  <div class="classify">
-    <tag source="classify" tagColor="#fff" tagBgColor="#4183c4" />
-    <list :articleList="articleList" />
-    <paging :total="total" @changePage="changePage" />
-  </div>
+  <ul class="home">
+    <li class="content" v-for="item in rticleList" :key="index">
+      <div class="content_head">
+        <span class="classify">{{ item.classify }}</span>
+        <span class="title" @click="toDetail(item.id)">{{ item.title }}</span>
+      </div>
+      <div class="content_main">
+        <img :src="item.img_url" />
+        <div
+          class="text"
+          v-html="item.content.slice(0, item.content.indexOf('</') + 4)"
+        ></div>
+      </div>
+      <div class="content_info">
+        <span class="info"><i>作者：</i>{{ item.author }}</span>
+        <span class="info"><i>发表于：</i>{{ item.public }}</span>
+        <span class="info"><i>阅读量：</i>{{ item.reading }}</span>
+      </div>
+    </li>
+  </ul>
 </template>
 
 <script>
-import Tag from "@components/side-bar/components/Tag.vue";
-import List from "@components/List";
-import Paging from "@components/Paging";
 import { getArticle } from "@/request/api";
 
 export default {
-  name: "Classify",
-  components: { Tag, List, Paging },
+  name: "Home",
   data() {
     return {
-      articleList: [],
-      total: 0,
+      rticleList: [],
     };
   },
   created() {
     this.getArticle();
   },
-  watch: {
-    // 方式一：
-    // 监听,当路由发生变化的时候执行
-    $route: {
-      handler: function (val) {
-        this.getArticle();
-      },
-      // 深度观察监听
-      deep: true,
-    },
-  },
   methods: {
     // 获取文章数据
-    getArticle(params = { page: 1, limit: 5, classify: this.$route.query.tag }) {
-      this.articleList = [];
-      this.total = 0;
-      getArticle(params).then((res) => {
+    getArticle() {
+      getArticle({ page: 1, limit: 5 }).then((res) => {
         if (res.code == "1") {
-          this.articleList = res.data;
-          this.total = res.total;
+          this.rticleList = res.data;
         }
       });
     },
@@ -51,19 +47,14 @@ export default {
     toDetail(id) {
       this.$router.push({ path: `/detail/${id}` });
     },
-    // 改变页码重新请求数据
-    changePage(options) {
-      this.getArticle(options);
-    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.classify {
-  padding-top: 10px;
-  background-color: #fff;
+.home {
   .content {
+    background-color: #fff;
     margin-bottom: 10px;
     border-bottom: solid 1px rgba(117, 125, 130, 0.35);
     padding: 10px 20px;

@@ -4,7 +4,7 @@
       :autoplay="true"
       :navigation="true"
       autoplayTimeout="2000"
-      height="200"
+      height="180"
       startIndex="2"
       border="0"
     >
@@ -49,6 +49,8 @@ export default {
           this.$nextTick(() => {
             document.querySelector(".carousel-3d-container").style.height =
               "100%";
+            document.querySelector(".carousel-3d-container").style.margin =
+              "10px auto";
           });
         }
       });
@@ -60,5 +62,6 @@ export default {
 <style lang="scss" scoped>
 .banner {
   height: 100%;
+  overflow: hidden;
 }
 </style>

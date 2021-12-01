@@ -46,16 +46,23 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "about" */ "../views/About.vue"),
         // component: resolve => require(['@v/About.vue'], resolve)
-      }
+      },
+      {
+        path: "/detail/:id",
+        name: "Detail",
+        component: () =>
+          import(/* webpackChunkName: "detail" */ "../views/Detail.vue"),
+        // component: resolve => require(['@v/Detail.vue'], resolve)
+      },
     ]
   },
-  {
-    path: "/detail/:id",
-    name: "Detail",
-    component: () =>
-      import(/* webpackChunkName: "detail" */ "../views/Detail.vue"),
-    // component: resolve => require(['@v/Detail.vue'], resolve)
-  },
+  // {
+  //   path: "/detail/:id",
+  //   name: "Detail",
+  //   component: () =>
+  //     import(/* webpackChunkName: "detail" */ "../views/Detail.vue"),
+  //   // component: resolve => require(['@v/Detail.vue'], resolve)
+  // },
 ];
 
 // 以下代码解决路由地址重复点击的报错问题

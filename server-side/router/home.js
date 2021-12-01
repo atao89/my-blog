@@ -31,8 +31,9 @@ module.exports = {
 
         // 获取文章
         app.get('/article', (req, res) => {
-            let { page, limit } = req.query;
-            DatabaseOperation.selectall('article', { page, limit }, function (result) {
+            let { page, limit, classify } = req.query;
+            // let reqParams = classify != undefined ? { page, limit, classify: '' } : { page, limit }
+            DatabaseOperation.selectall('article', { page, limit, classify }, function (result) {
                 // console.log("selectall查询结果：", result);
                 res.send({
                     data: result
@@ -43,6 +44,27 @@ module.exports = {
         // 获取banner图
         app.get('/banner', (req, res) => {
             DatabaseOperation.selectall('banner', {}, function (result) {
+                // console.log("selectall查询结果：", result);
+                res.send({
+                    data: result
+                })
+            })
+        })
+
+        // 获取文章详情
+        app.get('/detail', (req, res) => {
+            let { id } = req.query;
+            DatabaseOperation.select('article', { id }, function (result) {
+                // console.log("selectall查询结果：", result);
+                res.send({
+                    data: result
+                })
+            })
+        })
+
+        // 获取tag分类
+        app.get('/tag', (req, res) => {
+            DatabaseOperation.selectall('tag', {}, function (result) {
                 // console.log("selectall查询结果：", result);
                 res.send({
                     data: result

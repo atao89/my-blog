@@ -1,9 +1,14 @@
 // 引入mongodb
 const MongoClient = require('mongodb').MongoClient;
 
+// 引入MongoDB ObjectID模块
+// const ObjectID = MongoDB.ObjectID;
+
+// let _id = new ObjectID("5bcae50ed1f2c2f5e4e1a76a");  // 通过id查询
+
 var dataconfig = {
     dataurl: "mongodb://127.0.0.1:27017",  // 服务器地址
-    dataname: 'test'  // 数据库
+    dataname: 'blog'  // 数据库
 }
 
 const printResult = (err, dealdata, total, data, client) => {
@@ -18,7 +23,7 @@ const printResult = (err, dealdata, total, data, client) => {
         dealdata({
             code: '0',
             message: err,
-            total: 0,
+            total,
             data: []
         });
     }
@@ -47,7 +52,8 @@ const DatabaseOperation = {
                         })
                     } else {
                         paging.limit = paging.limit != undefined ? paging.limit : 10;
-                        collection.find({}, {
+                        const classify = paging.classify != undefined ? { classify: paging.classify } : {};
+                        collection.find(classify, {
                             skip: (paging.page - 1) * paging.limit - 0,
                             limit: paging.limit - 0,
                         }).toArray((err, data) => {
@@ -71,11 +77,9 @@ const DatabaseOperation = {
             if (!err) {
                 console.log('Connect Success');
                 const collection = client.db(dataconfig.dataname).collection(dataname);
+
                 collection.find(selectlanguage).toArray(function (err, data) {
-                    if (!err) {
-                        dealdata(data);
-                    }
-                    client.close();
+                    printResult(err, dealdata, undefined, data, client)
                 });
             } else {
                 dealdata(err)
@@ -93,11 +97,9 @@ const DatabaseOperation = {
             if (!err) {
                 console.log('Connect Success');
                 const collection = client.db(dataconfig.dataname).collection(dataname);
+
                 collection.insertMany(insertlanguage, function (err, data) {
-                    if (!err) {
-                        dealdata(data);
-                    }
-                    client.close();
+                    printResult(err, dealdata, undefined, data, client)
                 });
             } else {
                 dealdata(err)
@@ -116,11 +118,9 @@ const DatabaseOperation = {
             if (!err) {
                 console.log('Connect Success');
                 const collection = client.db(dataconfig.dataname).collection(dataname);
+
                 collection.updateOne(updatelanguage, updatecondition, function (err, data) {
-                    if (!err) {
-                        dealdata(data);
-                    }
-                    client.close();
+                    printResult(err, dealdata, undefined, data, client)
                 });
             } else {
                 dealdata(err)
@@ -138,11 +138,9 @@ const DatabaseOperation = {
             if (!err) {
                 console.log('Connect Success');
                 const collection = client.db(dataconfig.dataname).collection(dataname);
+
                 collection.deleteOne(removelanguage, function (err, data) {
-                    if (!err) {
-                        dealdata(data);
-                    }
-                    client.close();
+                    printResult(err, dealdata, undefined, data, client)
                 });
             } else {
                 dealdata(err)

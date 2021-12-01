@@ -1,87 +1,74 @@
 <template>
   <div class="detail">
-    <header class="detail_header">
-      <div class="container">
-        <headers />
-      </div>
-    </header>
-
-    <main class="main">
-      <div class="container">
-        <type :content="datas" />
-      </div>
-    </main>
-    <footer class="detail_footer">
-      <div class="container">
-        <footers />
-      </div>
-    </footer>
+    <h3 class="title">{{ datas.title }}</h3>
+    <div class="content_info">
+      <span class="info"><i>作者：</i>{{ datas.author }}</span>
+      <span class="info"><i>发表于：</i>{{ datas.public }}</span>
+      <span class="info"><i>分类：</i>{{ datas.classify }}</span>
+      <span class="info"><i>阅读量：</i>{{ datas.reading }}</span>
+    </div>
+    <div class="text" v-html="datas.content"></div>
   </div>
 </template>
 
 <script>
-import Headers from "@components/Headers";
-import Footers from "@components/Footers";
-import Type from "@components/Type";
+import { getDetail } from "@/request/api";
 
 export default {
   name: "Detail",
-  components: { Headers, Footers, Type },
   data() {
     return {
       datas: {
-        classify: "Vue",
         title: "Vue与其他框架的对比",
         author: "atao",
         public: "2021-11-21",
+        classify: "Vue",
+        reading: "10000",
+        content: "dqwewfrge",
       },
     };
   },
   created() {
-    this.$store.dispatch("home/getNavList");
-    sessionStorage.setItem("openKeys", JSON.stringify("/detail"))
+    sessionStorage.setItem("openKeys", JSON.stringify("/detail"));
+    this.getDetail();
+  },
+  methods: {
+    getDetail() {
+      getDetail({ id: this.$route.params.id }).then((res) => {
+        if (res.code == "1") {
+          this.datas = res.data.length ? res.data[0] : {};
+        }
+      });
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .detail {
-  .container {
-    width: 80%;
-    margin: auto;
+  background: #fff;
+  padding: 20px;
+  font-size: 16px;
+  h3.title {
+    font-size: 26px;
+    line-height: 50px;
   }
-
-  .detail_header {
-    width: 100%;
-    background: #4183c4;
-  }
-
-  .main .container {
-  }
-
-  .detail_footer {
-    background: #4183c4;
-  }
-
-  // 媒体查询，宽度小于1250时的样式
-  @media screen and (max-width: 1250px) {
-    .container {
-      width: 90%;
+  .content_info {
+    line-height: 40px;
+    border-bottom: 1px solid #eee;
+    .info {
+      color: #58bc58;
+      &:not(:first-child) {
+        margin-left: 20px;
+      }
+      & > i {
+        color: #999;
+      }
     }
   }
-
-  // 媒体查询，宽度小于1000时的样式
-  @media screen and (max-width: 1000px) {
-    .container {
-      width: 95%;
-    }
-  }
-
-  // 媒体查询，宽度小于800时的样式
-  @media screen and (max-width: 800px) {
-    .container {
-      width: 98%;
-    }
+  .text {
+    margin-top: 20px;
+    line-height: 32px;
   }
 }
 </style>

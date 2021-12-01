@@ -1,7 +1,7 @@
 <template>
   <div class="side-bar">
     <Notice />
-    <Tag />
+    <Tag source="side" />
     <Message />
   </div>
 </template>

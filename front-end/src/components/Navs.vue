@@ -35,9 +35,7 @@ export default {
   },
   data() {
     return {
-      currentSelectKey: sessionStorage.getItem("openKeys")
-        ? JSON.parse(sessionStorage.getItem("openKeys"))
-        : "/home",
+      currentSelectKey: "/home",
     };
   },
   watch: {
@@ -76,8 +74,17 @@ export default {
     selectHandle(item) {
       this.currentSelectKey = item.value;
       this.$router.push(item.value);
-      window.sessionStorage.setItem("openKeys", JSON.stringify(item.value));
+      sessionStorage.setItem("openKeys", JSON.stringify(item.value));
     },
+  },
+  mounted() {
+    if (this.$route.path === "/home") {
+      this.currentSelectKey = "/home";
+    } else {
+      this.currentSelectKey = sessionStorage.getItem("openKeys")
+        ? JSON.parse(sessionStorage.getItem("openKeys"))
+        : "/home";
+    }
   },
 };
 </script>
