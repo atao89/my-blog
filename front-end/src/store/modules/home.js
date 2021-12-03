@@ -17,7 +17,6 @@ export default {
         getNavList({ commit }) {
             return new Promise((resolve, reject) => {
                 getMenus().then(res => {
-                    // console.log('res：', res)
                     if (res.code == '1') {
                         commit('getNavList', res.data);
                         resolve()

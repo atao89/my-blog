@@ -6,145 +6,167 @@ const MongoClient = require('mongodb').MongoClient;
 
 // let _id = new ObjectID("5bcae50ed1f2c2f5e4e1a76a");  // 通过id查询
 
-var dataconfig = {
+const dataconfig = {
     dataurl: "mongodb://127.0.0.1:27017",  // 服务器地址
     dataname: 'blog'  // 数据库
 }
 
-const printResult = (err, dealdata, total, data, client) => {
-    if (!err) {
-        dealdata({
-            code: '1',
-            message: '操作成功',
-            total,
-            data
-        });
-    } else {
-        dealdata({
-            code: '0',
-            message: err,
-            total,
-            data: []
-        });
-    }
-    client.close();
+const MongoConnect = function (callBack) {
+    MongoClient.connect(dataconfig.dataurl, function (err, client) {
+        if (!err) {
+            console.log('Connect Success');
+            const db = client.db(dataconfig.dataname);
+            callBack(db, function () {
+                client.close()
+            })
+        } else {
+            throw new Error(err);
+        }
+    })
 }
 
 const DatabaseOperation = {
     /*
-        @selectall 方法返回全部所有数据
-        @dataname 表名称
-        @paging 分页
-        @dealdata 回调处理函数 格式function(result){};
-    */
-    selectall: function (dataname, paging, dealdata) {
-        MongoClient.connect(dataconfig.dataurl, function (err, client) {
-            if (!err) {
-                console.log('Connect Success');
-                const collection = client.db(dataconfig.dataname).collection(dataname);
-
-                let total = 0;
-                collection.countDocuments((err, num) => {
-                    total = num;
-                    if (paging.page === undefined) {
-                        collection.find().toArray((err, data) => {
-                            printResult(err, dealdata, total, data, client)
-                        })
-                    } else {
-                        paging.limit = paging.limit != undefined ? paging.limit : 10;
-                        const classify = paging.classify != undefined ? { classify: paging.classify } : {};
-                        collection.find(classify, {
-                            skip: (paging.page - 1) * paging.limit - 0,
-                            limit: paging.limit - 0,
-                        }).toArray((err, data) => {
-                            printResult(err, dealdata, total, data, client)
-                        })
-                    }
-                })
-            } else {
-                dealdata(err)
-            }
-        })
-    },
-    /*
-        @selectone 查询符合条件的数据
-        @dataname 表名称
-        @selectlanguage 查询控制语句 格式{index:value,index,value};
-        @dealdata 回调处理函数 格式function(result){};
-    */
-    select: function (dataname, selectlanguage, dealdata) {
-        MongoClient.connect(dataconfig.dataurl, function (err, client) {
-            if (!err) {
-                console.log('Connect Success');
-                const collection = client.db(dataconfig.dataname).collection(dataname);
-
-                collection.find(selectlanguage).toArray(function (err, data) {
-                    printResult(err, dealdata, undefined, data, client)
-                });
-            } else {
-                dealdata(err)
-            }
-        })
-    },
-    /*
-        @insert添加数据格式json格式
-        @dataname 表名称
+        @insert添加多条数据格式json格式
+        @collectionName 集合名称
         @selectlanguage 查询控制语句
-        @dealdata 回调函数处理函数有一个result参数
+        @callBack 回调函数处理函数有一个result参数
     */
-    insert: function (dataname, insertlanguage, dealdata) {
-        MongoClient.connect(dataconfig.dataurl, function (err, client) {
-            if (!err) {
-                console.log('Connect Success');
-                const collection = client.db(dataconfig.dataname).collection(dataname);
-
-                collection.insertMany(insertlanguage, function (err, data) {
-                    printResult(err, dealdata, undefined, data, client)
-                });
-            } else {
-                dealdata(err)
-            }
+    insert: function (collectionName, json, callBack) {
+        MongoConnect(function (db, cb) {
+            db.collection(collectionName).insertMany(json, function (err, result) {
+                if (err) {
+                    callBack({
+                        code: '0',
+                        message: err,
+                        total: 0,
+                        data: []
+                    })
+                } else {
+                    callBack(null, {
+                        code: '1',
+                        message: '操作成功',
+                        total: collectionCount,
+                        data: result
+                    })
+                }
+                cb()
+            });
         })
     },
+
+
     /*
-        @update 修改数据的方法
+        @removeall 删除一条数据的方法
+        @collectionName 集合名称
+        @removelanguage 删除数据的条件
+        @callBack 回调函数处理函数有一个result参数
+    */
+    remove: function (collectionName, removelanguage, callBack) {
+        MongoConnect(function (db, cb) {
+            db.collection(collectionName).deleteOne(removelanguage, function (err, data) {
+                if (err) {
+                    callBack({
+                        code: '0',
+                        message: err,
+                        total: 0,
+                        data: []
+                    })
+                } else {
+                    callBack(null, {
+                        code: '1',
+                        message: '操作成功',
+                        total: collectionCount,
+                        data: result
+                    })
+                }
+                cb()
+            });
+        })
+    },
+
+
+    /*
+        @update 修改一条数据的方法
         @updatelanguage 要修改数据的属性，json格式
         @updatecondition 要修改成什么，json格式
-        @dataname 表名称
-        @dealdata 回调函数处理函数有一个result参数
+        @collectionName 集合名称
+        @callBack 回调函数处理函数有一个result参数
     */
-    update: function (dataname, updatelanguage, updatecondition, dealdata) {
-        MongoClient.connect(dataconfig.dataurl, function (err, client) {
-            if (!err) {
-                console.log('Connect Success');
-                const collection = client.db(dataconfig.dataname).collection(dataname);
-
-                collection.updateOne(updatelanguage, updatecondition, function (err, data) {
-                    printResult(err, dealdata, undefined, data, client)
-                });
-            } else {
-                dealdata(err)
-            }
+    update: function (collectionName, updatelanguage, updatecondition, callBack) {
+        MongoConnect(function (db, cb) {
+            db.collection(collectionName).updateOne(updatelanguage, updatecondition, function (err, data) {
+                if (err) {
+                    callBack({
+                        code: '0',
+                        message: err,
+                        total: 0,
+                        data: []
+                    })
+                } else {
+                    callBack(null, {
+                        code: '1',
+                        message: '操作成功',
+                        total: collectionCount,
+                        data: result
+                    })
+                }
+                cb()
+            });
         })
     },
-    /*
-        @removeall 删除数据的方法
-        @dataname 表名称
-        @removelanguage 删除数据的条件
-        @dealdata 回调函数处理函数有一个result参数
-    */
-    remove: function (dataname, removelanguage, dealdata) {
-        MongoClient.connect(dataconfig.dataurl, function (err, client) {
-            if (!err) {
-                console.log('Connect Success');
-                const collection = client.db(dataconfig.dataname).collection(dataname);
 
-                collection.deleteOne(removelanguage, function (err, data) {
-                    printResult(err, dealdata, undefined, data, client)
-                });
-            } else {
-                dealdata(err)
-            }
+    /*
+        @find 查询数据
+        @collectionName 集合名称
+        @C、D 分页 如果传入的参数长度是3，则C为回调函数，如果传入的参数长度是4,则C为分页参数、D为回调函数
+        @callBack 回调处理函数 格式function(result){};
+    */
+    find: function (collectionName, json, C, D) {
+        if (arguments.length == 3) {
+            var page = 0;
+            var limit = 0;
+            var callBack = C;
+        } else if (arguments.length == 4) {
+            var page = C.page || 0;
+            var limit = C.limit || 0;
+            var callBack = D;
+        } else {
+            throw new Error("find参数必须是三个或四个");
+        }
+
+        MongoConnect(function (db, cb) {
+            let collectionCount = 0;
+            db.collection(collectionName).count((err, num) => {
+                if (!err) {
+                    collectionCount = num;
+                }
+            })
+
+            db.collection(collectionName).find(json, {
+                skip: (page - 1) * limit - 0,
+                limit: limit - 0,
+            }).toArray((err, result) => {
+                if (err) {
+                    callBack({
+                        code: '0',
+                        message: err,
+                        total: 0,
+                        data: []
+                    })
+                } else {
+                    let resCount = result.length;
+                    let total = page == 1 && resCount < limit ? resCount : collectionCount
+
+                    callBack(null, {
+                        code: '1',
+                        message: '操作成功',
+                        total,
+                        data: result
+                    })
+                }
+                cb()
+            })
         })
     },
 };

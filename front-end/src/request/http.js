@@ -114,7 +114,7 @@ export function get(url, params) {
         axios.get(url, {
             params: params
         }).then(res => {
-            resolve(res.data);
+            resolve(res);
         }).catch(err => {
             reject(err)
         })
@@ -130,7 +130,7 @@ export function post(url, params) {
     return new Promise((resolve, reject) => {
         axios.post(url, QS.stringify(params))
             .then(res => {
-                resolve(res.data);
+                resolve(res);
             })
             .catch(err => {
                 reject(err)
