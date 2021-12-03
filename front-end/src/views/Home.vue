@@ -48,6 +48,8 @@ export default {
 
 <style lang="scss" scoped>
 .home {
+  width: 100%;
+  overflow: hidden;
   .content {
     background-color: #fff;
     margin-bottom: 10px;

@@ -46,6 +46,8 @@ export default {
 
 <style lang="scss" scoped>
 .detail {
+  width: 100%;
+  overflow: hidden;
   background: #fff;
   padding: 20px;
   font-size: 16px;

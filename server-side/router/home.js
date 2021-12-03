@@ -87,5 +87,39 @@ module.exports = {
                 res.send(result)
             })
         })
+
+        // 获取归档数据（从文章表里去，此接口只返回指定字段）
+        app.get('/archive', (req, res) => {
+            let json = {};
+            if (req.query.json) {
+                json = req.query.json
+            }
+
+            let fields = {};
+            if (req.query != {}) {
+                for (var i in req.query) {
+                    // console.log(i, req.query[i])
+                    fields[i] = req.query[i] * 1
+                }
+            }
+
+            DatabaseOperation.findSpecified('article', json, fields, function (err, result) {
+                // console.log("find查询结果：", err, result);
+                if (err) {
+                    res.send(err);
+                    return
+                }
+                const _data = result.data.length && result.data.map(item => {
+                    return {
+                        id: item.id,
+                        public: item.public,
+                        year: item.public.slice(0, 4),
+                        title: item.title
+                    }
+                })
+                result.data = _data;
+                res.send(result)
+            })
+        })
     }
 }

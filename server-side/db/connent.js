@@ -169,6 +169,33 @@ const DatabaseOperation = {
             })
         })
     },
+
+    /*
+        @findSpecified 查询并返回指定字段
+    */
+    findSpecified: function (collectionName, json, fields, callBack) {
+        MongoConnect(function (db, cb) {
+            // console.log(json, fields);
+            db.collection(collectionName).find(json, fields).toArray((err, result) => {
+                if (err) {
+                    callBack({
+                        code: '0',
+                        message: err,
+                        total: 0,
+                        data: []
+                    })
+                } else {
+                    callBack(null, {
+                        code: '1',
+                        message: '操作成功',
+                        total: result.length,
+                        data: result
+                    })
+                }
+                cb()
+            })
+        })
+    },
 };
 
 module.exports = DatabaseOperation;

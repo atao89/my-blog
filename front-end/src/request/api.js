@@ -23,6 +23,9 @@ export const getDetail = p => get('/detail', p);
 // 获取tag分类
 export const getTags = p => get('/tag', p);
 
+// 获取归档列表
+export const getArchive = p => get('/archive', p);
+
 /*
     组件中使用
     import { apiAddress } from '@/request/api'
