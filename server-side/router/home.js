@@ -121,5 +121,17 @@ module.exports = {
                 res.send(result)
             })
         })
+
+        // 获取link链接数据
+        app.get('/link', (req, res) => {
+            DatabaseOperation.find('link', {}, function (err, result) {
+                // console.log("find查询结果：", err, result);
+                if (err) {
+                    res.send(err);
+                    return
+                }
+                res.send(result)
+            })
+        })
     }
 }
