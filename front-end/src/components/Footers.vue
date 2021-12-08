@@ -34,10 +34,17 @@ export default {
   h3 {
     color: #000;
     font-size: 14px;
-    margin-right: 30px;
+    margin-right: 50px;
     a {
       text-decoration: none;
       color: inherit;
+    }
+  }
+
+  // 媒体查询，宽度小于800时的样式
+  @media screen and (max-width: 400px) {
+    h3 {
+      margin-right: 10px;
     }
   }
 }

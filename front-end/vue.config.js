@@ -3,6 +3,9 @@
     process.env.NODE_ENV==='production'  (生产环境)
 */
 const path = require('path')
+function resolve(dir) {
+    return path.join(__dirname, '.', dir);
+}
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CompressionPlugin = require("compression-webpack-plugin");
 const vConsolePlugin = require('vconsole-webpack-plugin')
@@ -44,6 +47,38 @@ module.exports = {
     chainWebpack: config => {
         // 删除懒加载模块的 prefetch preload，降低带宽压力(使用在移动端)
         config.plugins.delete('prefetch').delete('preload')
+
+        // svg、icon
+        // config.module
+        //     .rule('svg')
+        //     .exclude.add(resolve('src/icons'))
+        //     .end();
+        // config.module
+        //     .rule('icons')
+        //     .test(/\.svg$/)
+        //     .include.add(resolve('src/icons'))
+        //     .end()
+        //     .use('svg-sprite-loader')
+        //     .loader('svg-sprite-loader')
+        //     .options({
+        //         symbolId: 'icon-[name]'
+        //     })
+
+        const rule = config.module.rule('svg')
+        rule.exclude.add(path.resolve('./src/icons/svg'))
+        const svgRule = config.module.rule('auto-svg') // 找到svg-loader
+        svgRule.uses.clear() // 清除已有的loader, 如果不这样做会添加在此loader之后
+        svgRule
+            .test(/\.(svg)(\?.*)?$/)
+            .exclude
+            .add(/node_modules/) // 正则匹配排除node_modules目录
+            .end()
+            .use('svg-sprite-loader')
+            .loader('svg-sprite-loader')
+            .options({
+                symbolId: 'icon-[name]'
+            })
+
 
         // 压缩图片
         config.module

@@ -90,7 +90,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     li {
-      padding: 3px 8px;
+      padding: 1px 5px;
       border-radius: 5px;
       background: #ddd;
       margin: 0 10px 10px 0;

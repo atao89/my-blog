@@ -196,6 +196,59 @@ const DatabaseOperation = {
             })
         })
     },
+
+    /*
+        @findFuzzy 模糊查找
+    */
+    findFuzzy: function (collectionName, keyword, C, D) {
+        if (arguments.length == 3) {
+            var page = 0;
+            var limit = 0;
+            var callBack = C;
+        } else if (arguments.length == 4) {
+            var page = C.page || 0;
+            var limit = C.limit || 0;
+            var callBack = D;
+        } else {
+            throw new Error("find参数必须是三个或四个");
+        }
+
+        MongoConnect(function (db, cb) {
+            let collectionCount = 0;
+            db.collection(collectionName).count((err, num) => {
+                if (!err) {
+                    collectionCount = num;
+                }
+            })
+
+            var str = ".*" + keyword + ".*$"
+            var reg = new RegExp(str)
+            db.collection(collectionName).find({ "title": { $regex: reg, $options: 'i' } }, {
+                skip: (page - 1) * limit - 0,
+                limit: limit - 0,
+            }).toArray((err, result) => {
+                if (err) {
+                    callBack({
+                        code: '0',
+                        message: err,
+                        total: 0,
+                        data: []
+                    })
+                } else {
+                    let resCount = result.length;
+                    let total = page == 1 && resCount < limit ? resCount : collectionCount
+
+                    callBack(null, {
+                        code: '1',
+                        message: '操作成功',
+                        total,
+                        data: result
+                    })
+                }
+                cb()
+            })
+        })
+    },
 };
 
 module.exports = DatabaseOperation;

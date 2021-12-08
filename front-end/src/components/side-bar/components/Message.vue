@@ -3,7 +3,7 @@
     <div class="type">
       <h3>留言</h3>
     </div>
-    <div class="content">message</div>
+    <div class="content"></div>
   </div>
 </template>
 

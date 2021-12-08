@@ -1,6 +1,7 @@
 <template>
   <div id="layout">
-    <header :class="{ home_header: true, is_fixed: isFixed }">
+    <!-- <header :class="{ home_header: true, is_fixed: isFixed }"> -->
+    <header class="home_header">
       <div class="container">
         <headers />
       </div>
@@ -23,6 +24,7 @@
         <footers />
       </div>
     </footer>
+    <div class="to_top" v-show="showTopBtn" @click="goTop">Top</div>
   </div>
 </template>
 
@@ -39,7 +41,8 @@ export default {
   components: { Headers, Footers, Banner, SideBar, Directory },
   data() {
     return {
-      isFixed: false,
+      // isFixed: false,
+      showTopBtn: false,
     };
   },
   created() {
@@ -55,26 +58,42 @@ export default {
     ...mapMutations("home", ["getNavList"]),
 
     //监听滚动的事件
-    menu() {
+    scroll() {
       var scrollTop =
         document.documentElement.scrollTop || document.body.scrollTop;
       var headerHeight = document.querySelector(".home_header").offsetHeight;
       // console.log("scrollTop：", scrollTop, "headerHeight：", headerHeight);
       //滑动到指定位置菜单吸顶
       if (scrollTop > headerHeight) {
-        this.isFixed = true;
+        // this.isFixed = true;
+        this.showTopBtn = true;
       } else {
-        this.isFixed = false;
+        // this.isFixed = false;
+        this.showTopBtn = false;
       }
+    },
+    // 返回顶部
+    goTop() {
+      let timer = setInterval(() => {
+        let scrollTop =
+          document.documentElement.scrollTop || document.body.scrollTop;
+
+        let ispeed = Math.floor(-scrollTop / 5);
+        document.documentElement.scrollTop = document.body.scrollTop =
+          scrollTop + ispeed;
+        if (scrollTop === 0) {
+          clearInterval(timer);
+        }
+      }, 16);
     },
   },
   destroyed() {
-    window.removeEventListener("scroll", this.menu);
+    window.removeEventListener("scroll", this.scroll);
   },
   mounted() {
     this.$nextTick(function () {
       //滚动监听事件
-      window.addEventListener("scroll", this.menu);
+      window.addEventListener("scroll", this.scroll);
     });
   },
 };
@@ -95,11 +114,11 @@ export default {
     background: #4183c4;
   }
 
-  .is_fixed {
-    // position: fixed;
-    // z-index: 2;
-    // animation: reback 0.4s ease-in forwards;
-  }
+  // .is_fixed {
+  // position: fixed;
+  // z-index: 2;
+  // animation: reback 0.4s ease-in forwards;
+  // }
   // @keyframes reback {
   //   50% {
   //     background: #000;
@@ -131,6 +150,20 @@ export default {
 
   .home_footer {
     background: #4183c4;
+  }
+
+  .to_top {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    padding: 10px;
+    color: #fff;
+    font-weight: 700;
+    background: rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    &:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
   }
 
   // 媒体查询，宽度小于1250时的样式

@@ -4,6 +4,7 @@ import router from "./router";
 import store from './store'
 
 import './lib/element-ui'
+import './icons'
 import { ls, ss } from './utils/storage'
 import './assets/styles/reset.css'
 import './assets/styles/border.css'

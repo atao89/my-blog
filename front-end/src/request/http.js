@@ -1,7 +1,7 @@
 // 在http.js中引入axios
 import axios from 'axios'; // 引入axios
 import QS from 'qs'; // 引入qs模块，用来序列化post类型的数据，后面会提到
-import { Message } from 'element-ui'
+import { Loading, Message } from 'element-ui'
 // import store from '@/store';
 
 axios.defaults.baseURL = process.env.VUE_APP_URL;
@@ -17,6 +17,12 @@ axios.interceptors.request.use(config => {
     // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断 
     // const token = store.state.token;
     // token && (config.headers.Authorization = token);
+    Loading.service({
+        lock: true,
+        text: '拼命加载中。。。',
+        spinner: 'el-icon-loading',
+        background: 'rgba(255, 255, 255, 0.7)'
+    })
     return config;
 }, error => {
     return Promise.error(error);
@@ -34,6 +40,12 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => {
     // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据     
     // 否则的话抛出错误
+    Loading.service({
+        lock: true,
+        text: '拼命加载中。。。',
+        spinner: 'el-icon-loading',
+        background: 'rgba(255, 255, 255, 0.7)'
+    }).close()
     if (response.status === 200) {
         return Promise.resolve(response.data);
     } else {

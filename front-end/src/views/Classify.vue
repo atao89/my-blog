@@ -12,6 +12,9 @@ import List from "@components/List";
 import Paging from "@components/Paging";
 import { getArticle } from "@/request/api";
 
+import _ from "lodash";
+import { getSearchData } from "@/request/api";
+
 export default {
   name: "Classify",
   components: { Tag, List, Paging },
@@ -22,14 +25,22 @@ export default {
     };
   },
   created() {
-    this.getArticle();
+    if (this.$route.query.keyword) {
+      this.searchArticle();
+    } else {
+      this.getArticle();
+    }
   },
   watch: {
     // 方式一：
     // 监听,当路由发生变化的时候执行
     $route: {
       handler: function (val) {
-        this.getArticle();
+        if (this.$route.query.keyword) {
+          this.searchArticle();
+        } else {
+          this.getArticle();
+        }
       },
       // 深度观察监听
       deep: true,
@@ -37,7 +48,9 @@ export default {
   },
   methods: {
     // 获取文章数据
-    getArticle(params = { page: 1, limit: 5, classify: this.$route.query.tag }) {
+    getArticle(
+      params = { page: 1, limit: 5, classify: this.$route.query.tag }
+    ) {
       this.articleList = [];
       this.total = 0;
       getArticle(params).then((res) => {
@@ -55,12 +68,29 @@ export default {
     changePage(options) {
       this.getArticle(options);
     },
+
+    // 获取模糊搜索数据
+    searchArticle: _.debounce(function () {
+      this.articleList = [];
+      this.total = 0;
+      getSearchData({
+        page: 1,
+        limit: 5,
+        keyword: this.$route.query.keyword,
+      }).then((res) => {
+        if (res.code == "1") {
+          this.articleList = res.data;
+          this.total = res.total;
+        }
+      });
+    }, 800),
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .classify {
+  width: 100%;
   padding-top: 10px;
   background-color: #fff;
   .content {

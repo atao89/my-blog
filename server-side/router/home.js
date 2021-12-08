@@ -133,5 +133,18 @@ module.exports = {
                 res.send(result)
             })
         })
+
+        // 获取搜索数据（模糊搜索，匹配文章标题）
+        app.get('/search', (req, res) => {
+            let { keyword, page, limit } = req.query;
+            DatabaseOperation.findFuzzy('article', keyword, { page, limit }, function (err, result) {
+                // console.log("find查询结果：", err, result);
+                if (err) {
+                    res.send(err);
+                    return
+                }
+                res.send(result)
+            })
+        })
     }
 }

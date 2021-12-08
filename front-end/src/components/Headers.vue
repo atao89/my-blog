@@ -1,19 +1,18 @@
 <template>
   <div class="headers">
-    <h1 @click="goHome">
-      阿涛
-      <!-- <a href="/">阿涛</a> -->
-    </h1>
+    <h1 @click="goHome">阿涛</h1>
+    <search v-if="$route.path == '/home'" />
     <navs />
   </div>
 </template>
 
 <script>
+import Search from "@components/Search";
 import Navs from "@components/Navs";
 
 export default {
   name: "Headers",
-  components: { Navs },
+  components: { Search, Navs },
   methods: {
     goHome() {
       this.$router.push("/");

@@ -29,6 +29,9 @@ export const getArchive = p => get('/archive', p);
 // 获取链接列表
 export const getLinks = p => get('/link', p);
 
+// 获取模糊搜索数据
+export const getSearchData = p => get('/search', p);
+
 /*
     组件中使用
     import { apiAddress } from '@/request/api'
