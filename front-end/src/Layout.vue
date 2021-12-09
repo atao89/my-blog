@@ -156,7 +156,7 @@ export default {
     position: fixed;
     right: 20px;
     bottom: 20px;
-    padding: 10px;
+    padding: 10px 5px;
     color: #fff;
     font-weight: 700;
     background: rgba(0, 0, 0, 0.4);

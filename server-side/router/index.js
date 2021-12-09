@@ -1,5 +1,7 @@
 var express = require('express');
 var app = express();
+const serveIndex = require('serve-index');
+
 const DatabaseOperation = require('../db/connent');
 
 var home = require('./home')
@@ -22,6 +24,12 @@ module.exports = {
 
         home.register(app, DatabaseOperation);
         user.register(app, DatabaseOperation);
+
+        // ----- 配置静态资源托管 -----
+        // 静态目录
+        app.use('/', serveIndex(__dirname, { 'icons': true }));
+        app.use('/', express.static(__dirname));
+
 
         app.listen(_port, () => {
             console.log(`Server running at ${_port}`);

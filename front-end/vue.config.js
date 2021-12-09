@@ -17,7 +17,7 @@ module.exports = {
         https://www.foobar.com/my-app/, 那么将这个值改为 '/my-app/'
 
     */
-    publicPath: '/', // vue-cli3.3+新版本使用,  baseUrl: '/',vue-cli3.3以下版本使用
+    publicPath: process.env.NODE_ENV === 'production' ? './' : '/', // vue-cli3.3+新版本使用,  baseUrl: '/',vue-cli3.3以下版本使用
     outputDir: `dist-${process.env.NODE_ENV}`, // 构建好的文件输出到哪里
     productionSourceMap: false, // 是否在构建生产包时生成 sourceMap 文件，false将提高构建速度  映射文件 打包时使用
     lintOnSave: false, // 保存时使用eslint-loader检查,值为true|false|'error',设为‘error’时检查出错误会编译失败

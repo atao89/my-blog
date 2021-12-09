@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build:dev": "vue-cli-service build --mode development --report",
-    "build:pro": "vue-cli-service build --mode production --report",
+    "build:prod": "vue-cli-service build --mode production --report",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
@@ -31,7 +31,7 @@
     "babel-eslint": "^10.1.0",
     "babel-plugin-component": "^1.1.1",
     "babel-plugin-lodash": "^3.3.4",
-    "compression-webpack-plugin": "^9.0.1",
+    "compression-webpack-plugin": "^5.0.1",
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^6.2.2",

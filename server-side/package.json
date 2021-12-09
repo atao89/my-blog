@@ -11,5 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "mongodb": "^4.2.0"
+  },
+  "dependencies": {
+    "serve-index": "^1.9.1"
   }
 }
