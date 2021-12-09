@@ -1,7 +1,7 @@
 <template>
   <div class="headers">
     <h1 @click="goHome">阿涛</h1>
-    <search v-if="$route.path == '/home'" />
+    <search />
     <navs />
   </div>
 </template>

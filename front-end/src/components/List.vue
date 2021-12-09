@@ -69,6 +69,9 @@ export default {
           color: #58bc58;
           margin-left: 20px;
           cursor: pointer;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
       }
     }
@@ -119,6 +122,9 @@ export default {
 
   // 媒体查询，宽度小于800时的样式
   @media screen and (max-width: 800px) {
+    .content {
+      padding: 5px;
+    }
     .content .content_main {
       height: 150px;
       img {

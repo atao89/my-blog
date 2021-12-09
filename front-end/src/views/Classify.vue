@@ -2,6 +2,7 @@
   <div class="classify">
     <tag source="classify" tagColor="#fff" tagBgColor="#4183c4" />
     <list :articleList="articleList" />
+    <no-data v-if="total == 0" />
     <paging :total="total" @changePage="changePage" />
   </div>
 </template>
@@ -10,6 +11,7 @@
 import Tag from "@components/side-bar/components/Tag.vue";
 import List from "@components/List";
 import Paging from "@components/Paging";
+import NoData from "@components/NoData";
 import { getArticle } from "@/request/api";
 
 import _ from "lodash";
@@ -17,7 +19,7 @@ import { getSearchData } from "@/request/api";
 
 export default {
   name: "Classify",
-  components: { Tag, List, Paging },
+  components: { Tag, List, Paging, NoData },
   data() {
     return {
       articleList: [],
@@ -83,7 +85,7 @@ export default {
           this.total = res.total;
         }
       });
-    }, 800),
+    }, 1000),
   },
 };
 </script>

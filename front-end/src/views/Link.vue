@@ -79,7 +79,7 @@ export default {
         box-shadow: 1px 1px 10px #ddd;
         padding: 10px;
         cursor: pointer;
-        width: 19%;
+        width: 24%;
         margin-right: 1%;
         margin-bottom: 10px;
         transition: all 0.5s;
@@ -130,13 +130,13 @@ export default {
   }
 
   // 媒体查询，宽度小于1250时的样式
-  @media screen and (max-width: 1500px) {
-    .link-item .link-content .content-item {
-      width: 24%;
-      margin-right: 1%;
-      margin-bottom: 10px;
-    }
-  }
+  // @media screen and (max-width: 1500px) {
+  //   .link-item .link-content .content-item {
+  //     width: 24%;
+  //     margin-right: 1%;
+  //     margin-bottom: 10px;
+  //   }
+  // }
   @media screen and (max-width: 1320px) {
     .link-item .link-content .content-item {
       width: 32%;

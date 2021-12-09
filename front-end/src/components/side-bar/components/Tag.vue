@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import { getTags } from "@/request/api";
 
 export default {
@@ -50,6 +51,7 @@ export default {
     this.getTags();
   },
   methods: {
+    ...mapActions("home", ["changeKeyword"]),
     // 获取tag分类数据
     getTags() {
       getTags().then((res) => {
@@ -60,6 +62,7 @@ export default {
     },
     // 去分类页
     goClassify(tagName) {
+      this.changeKeyword("");
       this.$router.push({ path: "/classify", query: { tag: tagName } });
     },
   },

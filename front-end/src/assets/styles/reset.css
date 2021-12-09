@@ -2,7 +2,8 @@
 html {
     background-color: #fff;
     color: #000;
-    font-size: 12px
+    font-size: 14px;
+    overflow-y: scroll; /* 解决滚动条闪动 */
 }
 
 html,
@@ -220,4 +221,12 @@ hr {
 a {
     color: #25a4bb;
     text-decoration: none;
+}
+
+
+/* 修改input默认样式 */
+::-webkit-input-placeholder {
+    color: #ccc;
+    font-size: 12px;
+    /* font-weight: bolder; */
 }

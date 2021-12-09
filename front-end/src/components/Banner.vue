@@ -18,6 +18,7 @@
               onRight: rightIndex >= 0,
             }"
             :src="slide.img_url"
+            @click="goDetail(slide.article_id)"
           />
         </template>
       </slide>
@@ -55,6 +56,10 @@ export default {
         }
       });
     },
+    // 去详情页
+    goDetail(id) {
+      // this.$router.push({ path: `/detail/${id}` });
+    },
   },
 };
 </script>
@@ -63,5 +68,8 @@ export default {
 .banner {
   height: 100%;
   overflow: hidden;
+  img {
+    cursor: pointer;
+  }
 }
 </style>

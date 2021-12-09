@@ -3,7 +3,7 @@
     <input
       type="text"
       placeholder="请输入搜索关键字"
-      v-model="keywords"
+      v-model="keyword"
       class="search-input"
       @input="inputHandle"
     />
@@ -11,17 +11,22 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
   name: "Search",
   data() {
-    return {
-      keywords: "",
-    };
+    return {};
+  },
+  computed: {
+    ...mapState("home", ["keyword"]),
   },
   methods: {
+    ...mapActions("home", ["changeKeyword"]),
     inputHandle(e) {
       // console.log(e.target.value);
       let keyword = e.target.value;
+      this.changeKeyword(keyword);
       this.$router.push({ path: "/classify", query: { keyword: keyword } });
     },
   },
@@ -37,6 +42,9 @@ export default {
     line-height: 32px;
     padding-left: 5px;
     border-radius: 5px;
+    background: transparent;
+    border: 1px solid #64a0dc;
+    color: #fff;
   }
 }
 

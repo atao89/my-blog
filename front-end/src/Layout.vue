@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapActions } from "vuex";
 import Headers from "@components/Headers";
 import Footers from "@components/Footers";
 import Banner from "@components/Banner";
@@ -46,8 +46,8 @@ export default {
     };
   },
   created() {
-    // this.getNavList();
-    this.$store.dispatch("home/getNavList");
+    this.getNavList();
+    // this.$store.dispatch("home/getNavList");
   },
   computed: {
     CurrentComponent() {
@@ -55,7 +55,7 @@ export default {
     },
   },
   methods: {
-    ...mapMutations("home", ["getNavList"]),
+    ...mapActions("home", ["getNavList"]),
 
     //监听滚动的事件
     scroll() {

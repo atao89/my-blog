@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Navs",
@@ -70,8 +70,10 @@ export default {
     ...mapState("home", ["navList"]),
   },
   methods: {
+    ...mapActions("home", ["changeKeyword"]),
     // 切换菜单
     selectHandle(item) {
+      this.changeKeyword("");
       this.currentSelectKey = item.value;
       this.$router.push(item.value);
       sessionStorage.setItem("openKeys", JSON.stringify(item.value));
