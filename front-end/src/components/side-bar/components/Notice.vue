@@ -89,8 +89,9 @@ export default {
   }
 
   .section {
-    font-size: 14px;
-    color: #888;
+    font-size: 13px;
+    line-height: 20px;
+    color: #333;
     p {
       &:not(last-child) {
         margin-bottom: 10px;
